@@ -3,12 +3,14 @@ export class App {
     this.canvasElement = document.createElement("canvas");
     this.ctx = this.canvasElement.getContext("2d");
     this.dpr = window.devicePixelRatio > 1 ? 2 : 1;
+    this.width = props.width;
+    this.height = props.height;
     this.stageWidth = props.width * this.dpr;
     this.stageHeight = props.height * this.dpr;
     this.canvasElement.width = this.stageWidth;
     this.canvasElement.height = this.stageHeight;
-    this.canvasElement.style.width = `100%`;
-    this.canvasElement.style.height = `100%`;
+    this.canvasElement.style.width = props.width + "px";
+    this.canvasElement.style.height = props.height + "px";
     this.ctx.scale(this.dpr, this.dpr);
 
     this.animate();
