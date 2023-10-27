@@ -14,8 +14,6 @@ export class App {
     this.animate();
   }
 
-  update() {}
-
   draw() {
     this.drawBg();
   }
@@ -23,7 +21,6 @@ export class App {
   animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-    this.update();
     this.draw();
   }
 
