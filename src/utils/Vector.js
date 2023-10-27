@@ -48,4 +48,12 @@ export default class Vector {
   collidesWith(v, radius) {
     return Vector.distance(this, v) < radius;
   }
+
+  copy() {
+    return new Vector(this.x, this.y);
+  }
+
+  mag() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
 }

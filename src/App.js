@@ -1,8 +1,6 @@
 import Dot from "./Dot.js";
 import Mouse from "./Mouse.js";
 import { rand } from "./utils/rand.js";
-import Vector from "./utils/Vector.js";
-import Stick from "./Stick.js";
 
 export class App {
   constructor(props) {
@@ -23,24 +21,16 @@ export class App {
     this.mouseRadius = 30;
     this.mouseColor = "rgba(0,0,0,0.19)";
 
-    this.initDots(400);
+    this.dots = [];
+    this.initDots(10);
+
     this.animate();
   }
 
   draw() {
     this.drawBg();
     this.drawMouse();
-    this.dots.forEach((dot) => {
-      if (dot.vector.collidesWith(this.mouse.vector, this.mouseRadius)) {
-        dot.color = "#0000ff";
-        dot.vector.setXY(this.mouse.vector.x, this.mouse.vector.y);
-      } else {
-        dot.color = "#ff0000";
-      }
-      dot.update();
-      dot.draw(this.ctx);
-    });
-    this.drawSticks();
+    this.drawDots();
   }
 
   animate() {
@@ -71,32 +61,24 @@ export class App {
     this.ctx.restore();
   }
 
-  drawSticks() {
-    for (let i = 0; i < this.dots.length; i++) {
-      for (let j = i + 1; j < this.dots.length; j++) {
-        const d1 = this.dots[i];
-        const d2 = this.dots[j];
-        const dist = Vector.distance(d1.vector, d2.vector);
-        if (dist < 100) {
-          this.ctx.save();
-          this.ctx.strokeStyle = "#e77070";
-          this.ctx.beginPath();
-          this.ctx.moveTo(d1.vector.x, d1.vector.y);
-          this.ctx.lineTo(d2.vector.x, d2.vector.y);
-          this.ctx.stroke();
-          this.ctx.restore();
-        }
-      }
+  // 🔥 DOTS
+  initDots(n) {
+    for (let i = 0; i < n; i++) {
+      const dot = new Dot(rand(0, this.width), rand(0, this.height));
+      this.dots.push(dot);
     }
   }
 
-  initDots(n) {
-    this.dots = [];
-    for (let i = 0; i < n; i++) {
-      const x = rand(0, this.width);
-      const y = rand(0, this.height);
-      const dot = new Dot(x, y);
-      this.dots.push(dot);
-    }
+  drawDots() {
+    this.dots.forEach((dot) => {
+      dot.update();
+      dot.constrain(
+        dot.radius,
+        dot.radius,
+        this.width - dot.radius,
+        this.height - dot.radius,
+      );
+      dot.draw(this.ctx);
+    });
   }
 }
