@@ -7,8 +7,8 @@ export class App {
     this.stageHeight = props.height * this.dpr;
     this.canvasElement.width = this.stageWidth;
     this.canvasElement.height = this.stageHeight;
-    this.canvasElement.style.width = `100%`;
-    this.canvasElement.style.height = `100%`;
+    this.canvasElement.style.width = `${props.width}px`;
+    this.canvasElement.style.height = `${props.height}px`;
     this.ctx.scale(this.dpr, this.dpr);
 
     this.animate();
