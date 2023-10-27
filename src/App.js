@@ -1,6 +1,7 @@
 import Dot from "./Dot.js";
 import Mouse from "./Mouse.js";
 import { rand } from "./utils/rand.js";
+import Stick from "./Stick.js";
 
 export class App {
   constructor(props) {
@@ -22,7 +23,12 @@ export class App {
     this.mouseColor = "rgba(0,0,0,0.19)";
 
     this.dots = [];
+    this.sticks = [];
     this.initDots(10);
+
+    this.boxDots = [];
+    this.boxSticks = [];
+    this.initBox();
 
     this.animate();
   }
@@ -31,6 +37,7 @@ export class App {
     this.drawBg();
     this.drawMouse();
     this.drawDots();
+    // this.drawBox();
   }
 
   animate() {
@@ -64,13 +71,69 @@ export class App {
   // 🔥 DOTS
   initDots(n) {
     for (let i = 0; i < n; i++) {
-      const dot = new Dot(rand(0, this.width), rand(0, this.height));
+      const x = i === 0 ? 300 : rand(0, this.width);
+      const y = i === 0 ? 300 : rand(0, this.height / 2);
+      const dot = new Dot(x, y);
+      if (i === 0) dot.pinned = true;
+      if (i === n - 1) {
+        dot.radius = 20;
+        dot.mass = 10;
+      }
       this.dots.push(dot);
+    }
+
+    for (let i = 0; i < this.dots.length - 1; i++) {
+      if (i === this.dots.length - 1) break;
+      const stick = new Stick(this.dots[i], this.dots[i + 1], {
+        length: 30,
+        tension: 0.5,
+      });
+      this.sticks.push(stick);
     }
   }
 
   drawDots() {
+    const ITERATIONS = 3; // tension of the sticks
+    for (let i = 0; i < ITERATIONS; i++) {
+      this.dots.forEach((dot) => {
+        dot.update();
+        dot.constrain(
+          dot.radius,
+          dot.radius,
+          this.width - dot.radius,
+          this.height - dot.radius,
+        );
+      });
+
+      this.sticks.forEach((stick) => {
+        stick.update();
+      });
+    }
+
     this.dots.forEach((dot) => {
+      dot.draw(this.ctx);
+    });
+    this.sticks.forEach((stick) => {
+      stick.draw(this.ctx);
+    });
+  }
+
+  initBox() {
+    this.boxDots.push(new Dot(100, 100));
+    this.boxDots.push(new Dot(100, 200));
+    this.boxDots.push(new Dot(200, 200));
+    this.boxDots.push(new Dot(200, 100));
+
+    this.boxSticks.push(new Stick(this.boxDots[0], this.boxDots[1]));
+    this.boxSticks.push(new Stick(this.boxDots[1], this.boxDots[2]));
+    this.boxSticks.push(new Stick(this.boxDots[2], this.boxDots[3]));
+    this.boxSticks.push(new Stick(this.boxDots[3], this.boxDots[0]));
+
+    this.boxSticks.push(new Stick(this.boxDots[1], this.boxDots[3]));
+  }
+
+  drawBox() {
+    this.boxDots.forEach((dot) => {
       dot.update();
       dot.constrain(
         dot.radius,
@@ -79,6 +142,10 @@ export class App {
         this.height - dot.radius,
       );
       dot.draw(this.ctx);
+    });
+    this.boxSticks.forEach((stick) => {
+      stick.update();
+      stick.draw(this.ctx);
     });
   }
 }

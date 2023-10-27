@@ -1,16 +1,19 @@
 import Vector from "./utils/Vector.js";
 
 export default class Dot {
-  constructor(x, y) {
+  constructor(x, y, mass) {
     this.vector = new Vector(x, y);
     this.oldVector = new Vector(x, y);
     this.radius = 5;
     this.color = "#ff0000";
     this.gravity = new Vector(0, 1);
     this.friction = 0.97;
+    this.pinned = false;
+    this.mass = mass ?? 1;
   }
 
   update() {
+    if (this.pinned) return;
     // create a velocity from the difference between the current and old position
     const velocity = Vector.sub(this.vector, this.oldVector);
     this.oldVector.setXY(this.vector.x, this.vector.y);

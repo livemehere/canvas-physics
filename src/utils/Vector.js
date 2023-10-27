@@ -15,6 +15,10 @@ export default class Vector {
     return Math.sqrt((v1.x - v2.x) ** 2 + (v1.y - v2.y) ** 2);
   }
 
+  distance(v) {
+    return Math.sqrt((this.x - v.x) ** 2 + (this.y - v.y) ** 2);
+  }
+
   setXY(x, y) {
     this.x = x;
     this.y = y;
@@ -51,9 +55,5 @@ export default class Vector {
 
   copy() {
     return new Vector(this.x, this.y);
-  }
-
-  mag() {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 }
