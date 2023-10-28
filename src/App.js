@@ -4,21 +4,11 @@ import Particle from "./objects/Particle.js";
 import { AudioManager } from "./AudioManager.js";
 
 export class App {
-  constructor(props) {
+  constructor() {
     this.audioManager = new AudioManager();
     this.audioManager.init();
     this.canvasElement = document.querySelector("canvas");
     this.ctx = this.canvasElement.getContext("2d");
-    this.dpr = window.devicePixelRatio > 1 ? 2 : 1;
-    this.width = props.width;
-    this.height = props.height;
-    this.stageWidth = props.width * this.dpr;
-    this.stageHeight = props.height * this.dpr;
-    this.canvasElement.width = this.stageWidth;
-    this.canvasElement.height = this.stageHeight;
-    this.canvasElement.style.width = `${props.width}px`;
-    this.canvasElement.style.height = `${props.height}px`;
-    this.ctx.scale(this.dpr, this.dpr);
 
     document.querySelector("#sound-start").addEventListener("click", () => {
       this.audioManager.play("firework", 0);
@@ -29,17 +19,32 @@ export class App {
       this.onMouseDown.bind(this),
     );
 
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+
     this.ctx.fillStyle = "#000";
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     this.tails = [];
     this.particles = [];
-    this.createTail(1);
     this.animate();
   }
 
+  resize() {
+    this.dpr = window.devicePixelRatio > 1 ? 2 : 1;
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.stageWidth = this.width * this.dpr;
+    this.stageHeight = this.height * this.dpr;
+    this.canvasElement.width = this.stageWidth;
+    this.canvasElement.height = this.stageHeight;
+    this.canvasElement.style.width = `${this.width}px`;
+    this.canvasElement.style.height = `${this.height}px`;
+    this.ctx.scale(this.dpr, this.dpr);
+  }
+
   draw() {
-    if (rand(0, 1) < 0.03 && this.tails.length < 3) {
+    if (rand(0, 1) < 0.03 && this.tails.length < 13) {
       this.createTail(1);
     }
     this.drawBg();

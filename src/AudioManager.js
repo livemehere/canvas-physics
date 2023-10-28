@@ -18,5 +18,8 @@ export class AudioManager {
     const audio = this.audios[name].cloneNode();
     audio.volume = vol;
     audio.play();
+    audio.addEventListener("ended", () => {
+      audio.remove();
+    });
   }
 }
