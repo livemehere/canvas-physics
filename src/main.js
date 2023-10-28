@@ -1,7 +1,6 @@
 import { App } from "./App";
 
-const app = new App({
-  width: 800,
-  height: 800,
+new App({
+  width: window.innerWidth,
+  height: window.innerHeight,
 });
-document.body.appendChild(app.canvasElement);
