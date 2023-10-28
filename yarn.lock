@@ -112,6 +112,11 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.18.20.tgz#786c5f41f043b07afb1af37683d7c33668858f6d"
   integrity sha512-kTdfRcSiDfQca/y9QIkng02avJ+NCaQvrMejlsB3RRv5sE9rRoeBPISaZpKxHELzRxZyLvNts1P27W3wV+8geQ==
 
+"@types/matter-js@^0.19.2":
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.19.2.tgz#280c55bf749df9d286d7e39841944932d4ffb1ff"
+  integrity sha512-017JF8XkqIsuCpSAQOK94bpcs7Fyqx4YR3j1ZS68w18HLNEnG1KSfdMW098QN8alrbHFJOec8QDbyrsE7tx8ww==
+
 esbuild@^0.18.10:
   version "0.18.20"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.18.20.tgz#4709f5a34801b43b799ab7d6d82f7284a9b7a7a6"
@@ -144,6 +149,11 @@ fsevents@~2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
+
+matter-js@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/matter-js/-/matter-js-0.19.0.tgz#185e518146ae4fa20c33826ebc7e6e42685e3642"
+  integrity sha512-v2huwvQGOHTGOkMqtHd2hercCG3f6QAObTisPPHg8TZqq2lz7eIY/5i/5YUV8Ibf3mEioFEmwibcPUF2/fnKKQ==
 
 nanoid@^3.3.6:
   version "3.3.6"

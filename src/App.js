@@ -1,36 +1,53 @@
+import {
+  Bodies,
+  Composite,
+  Engine,
+  Mouse,
+  MouseConstraint,
+  Render,
+  Runner,
+} from "matter-js";
+
 export class App {
   constructor(props) {
-    this.canvasElement = document.createElement("canvas");
-    this.ctx = this.canvasElement.getContext("2d");
-    this.dpr = window.devicePixelRatio > 1 ? 2 : 1;
-    this.stageWidth = props.width * this.dpr;
-    this.stageHeight = props.height * this.dpr;
-    this.canvasElement.width = this.stageWidth;
-    this.canvasElement.height = this.stageHeight;
-    this.canvasElement.style.width = `${props.width}px`;
-    this.canvasElement.style.height = `${props.height}px`;
-    this.ctx.scale(this.dpr, this.dpr);
+    this.canvas = document.querySelector("canvas");
+    this.engine = Engine.create();
+    this.runner = Runner.create();
+    this.render = Render.create({
+      canvas: this.canvas,
+      engine: this.engine,
+    });
 
-    this.animate();
+    Render.run(this.render);
+    Runner.run(this.runner, this.engine);
+
+    this.addBox(100, 100, 100);
+    this.addBox(
+      this.canvas.width / 2,
+      this.canvas.height + this.canvas.height / 1.7,
+      this.canvas.width,
+      {
+        isStatic: true,
+      },
+    );
+
+    this.mouse = Mouse.create(this.render.canvas);
+    this.mouseConstraint = MouseConstraint.create(this.engine, {
+      mouse: this.mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: true,
+        },
+      },
+    });
+
+    Composite.add(this.engine.world, this.mouseConstraint);
+    this.render.mouse = this.mouse;
   }
 
-  update() {}
-
-  draw() {
-    this.drawBg();
-  }
-
-  animate() {
-    requestAnimationFrame(this.animate.bind(this));
-    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-    this.update();
-    this.draw();
-  }
-
-  drawBg() {
-    this.ctx.save();
-    this.ctx.fillStyle = "#d2d2d2";
-    this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
-    this.ctx.restore();
+  addBox(x, y, size, option) {
+    const box = Bodies.rectangle(x, y, size, size, option);
+    Composite.add(this.engine.world, [box]);
   }
 }
